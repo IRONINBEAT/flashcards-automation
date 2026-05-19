@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карточки — Инженер по АиММП</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Инженер по АиММП</h1>
+      <div class="header-controls">
+        <button id="btn-settings" class="btn-icon" title="Настройки">⚙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Settings panel -->
+  <div id="settings-panel" class="settings-panel hidden">
+    <div class="settings-content">
+      <h2>Настройки</h2>
+
+      <div class="setting-group">
+        <label class="setting-label">Режим</label>
+        <div class="toggle-group">
+          <button class="toggle-btn active" data-mode="modules" id="mode-modules">По модулям</button>
+          <button class="toggle-btn" data-mode="blind" id="mode-blind">Слепой режим</button>
+        </div>
+      </div>
+
+      <div class="setting-group" id="module-selector-group">
+        <label class="setting-label">Модуль</label>
+        <div class="module-buttons" id="module-buttons">
+          <button class="module-btn active" data-module="all">Все</button>
+          <button class="module-btn" data-module="1">Модуль 1</button>
+          <button class="module-btn" data-module="2">Модуль 2</button>
+          <button class="module-btn" data-module="3">Модуль 3</button>
+        </div>
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label">Порядок</label>
+        <div class="toggle-group">
+          <button class="toggle-btn active" data-order="sequential" id="order-sequential">По порядку</button>
+          <button class="toggle-btn" data-order="random" id="order-random">Случайный</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-start">Начать</button>
+    </div>
+    <div class="settings-overlay" id="settings-overlay"></div>
+  </div>
+
+  <!-- Main screen -->
+  <main id="main-screen">
+    <div class="welcome">
+      <div class="welcome-stats">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-total">78</span>
+          <span class="stat-label">вопросов</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <span class="stat-label">модуля</span>
+        </div>
+      </div>
+      <div class="module-previews">
+        <div class="module-preview" data-start-module="1">
+          <div class="module-number">1</div>
+          <div class="module-info">
+            <div class="module-title">Техническая документация</div>
+            <div class="module-count" id="count-1">33 вопроса</div>
+          </div>
+          <button class="btn-start-module">Начать</button>
+        </div>
+        <div class="module-preview" data-start-module="2">
+          <div class="module-number">2</div>
+          <div class="module-info">
+            <div class="module-title">Технические средства автоматизации</div>
+            <div class="module-count" id="count-2">29 вопросов</div>
+          </div>
+          <button class="btn-start-module">Начать</button>
+        </div>
+        <div class="module-preview" data-start-module="3">
+          <div class="module-number">3</div>
+          <div class="module-info">
+            <div class="module-title">Технико-экономическое обоснование</div>
+            <div class="module-count" id="count-3">14 вопросов</div>
+          </div>
+          <button class="btn-start-module">Начать</button>
+        </div>
+      </div>
+      <div class="welcome-actions">
+        <button class="btn-primary large" id="btn-all-cards">Все карточки</button>
+        <button class="btn-secondary large" id="btn-blind-mode">Слепой режим</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Flashcard screen -->
+  <div id="card-screen" class="hidden">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="card-header">
+      <button class="btn-back" id="btn-back">← Назад</button>
+      <div class="card-counter">
+        <span id="card-current">1</span> / <span id="card-total">78</span>
+      </div>
+      <div class="card-mode-badge" id="card-mode-badge"></div>
+    </div>
+
+    <div class="card-area">
+      <div class="flashcard" id="flashcard">
+        <div class="card-front" id="card-front">
+          <div class="card-module-tag" id="card-module-tag"></div>
+          <div class="card-question" id="card-question"></div>
+          <div class="card-options" id="card-options"></div>
+          <div class="card-hint">Нажмите на карточку, чтобы увидеть ответ</div>
+        </div>
+        <div class="card-back" id="card-back">
+          <div class="card-module-tag" id="card-module-tag-back"></div>
+          <div class="card-question small" id="card-question-back"></div>
+          <div class="card-answer-section">
+            <div class="answer-label">Правильные ответы:</div>
+            <div class="card-answers" id="card-answers"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-controls">
+      <button class="btn-nav" id="btn-prev" disabled>← Пред.</button>
+      <button class="btn-flip" id="btn-flip">Показать ответ</button>
+      <button class="btn-nav" id="btn-next">След. →</button>
+    </div>
+
+    <div class="card-footer">
+      <button class="btn-shuffle" id="btn-shuffle-inline">Перемешать</button>
+      <button class="btn-restart" id="btn-restart">Начать заново</button>
+    </div>
+  </div>
+
+  <!-- Completion screen -->
+  <div id="done-screen" class="hidden">
+    <div class="done-content">
+      <div class="done-icon">✓</div>
+      <h2>Все карточки пройдены!</h2>
+      <p class="done-subtitle" id="done-subtitle"></p>
+      <div class="done-actions">
+        <button class="btn-primary" id="btn-restart-done">Пройти ещё раз</button>
+        <button class="btn-secondary" id="btn-home">На главную</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
