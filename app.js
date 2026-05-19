@@ -249,11 +249,19 @@
     optionsEl.innerHTML = '';
 
     if (q.type === 'special') {
-      // Show extra lines (matching items)
+      // Show extra lines grouped: numbered items, then a divider, then lettered definitions
       if (q.extraLines && q.extraLines.length > 0) {
         const extraDiv = document.createElement('div');
         extraDiv.className = 'card-extra-lines';
+        let addedDivider = false;
         q.extraLines.forEach(line => {
+          // Insert divider before lettered items (А., Б., В., Г.)
+          if (!addedDivider && /^[А-Г]\./.test(line)) {
+            const div = document.createElement('div');
+            div.className = 'extra-line-divider';
+            extraDiv.appendChild(div);
+            addedDivider = true;
+          }
           const d = document.createElement('div');
           d.className = 'extra-line';
           d.textContent = line;
@@ -319,6 +327,8 @@
     mainScreen.classList.toggle('hidden', name !== 'main');
     cardScreen.classList.toggle('hidden', name !== 'card');
     doneScreen.classList.toggle('hidden', name !== 'done');
+    // Prevent body scroll when card screen is active (fixed overlay)
+    document.body.style.overflow = name === 'card' ? 'hidden' : '';
 
     if (name === 'done') {
       const modName = state.selectedModule === 'all'

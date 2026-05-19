@@ -109,7 +109,7 @@ const QUESTIONS = [
     "moduleName": "Техническая документация",
     "question": "Установите соответствие между видом документа и его назначением.",
     "options": [],
-    "correctAnswer": "В, 3-Г, 4-Б",
+    "correctAnswer": "1-А, 2-В, 3-Г, 4-Б",
     "type": "special",
     "extraLines": [
       "1. Техническое задание",
